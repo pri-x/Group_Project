@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+  <body>
+    <%- include('layouts/nav'); -%>
+    <main>
+      <div class="container">
+        <table class="infotable">
+          <thead>
+            <tr>
+              <th>    First Name    </th>
+              <th>    Last Name     </th>
+              <th>    User Name     </th>
+              <th>    User Type     </th>
+              <th>    License Number    </th>
+              <th>    Test Type   </th>
+              <th>    Result    </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0;i< testresults.length;i++){ %>   
+            <tr>
+              <td><%= testresults[i].firstname %></td>
+              <td><%= testresults[i].lastname %></td>
+              <td><%= testresults[i].username %></td>
+              <td><%= testresults[i].userType %></td>
+              <td><%= testresults[i].licensenumber %></td>
+              <td><%= testresults[i].testType %></td>
+              <td class="<%= testresults[i].testResult=='Pass'? 'Pass': 'Fail' %>">
+                <%= testresults[i].testResult? testresults[i].testResult: " " %>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <%- include('layouts/appointment'); -%>
+  </body>
+</html>

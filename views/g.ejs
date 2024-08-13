@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G License</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/custom.css">
+    <style>
+        body {
+            background-color: #f5f7f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .page-header {
+            background-color: #333;
+            color: #ffffff;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header span {
+            font-size: 1.25rem;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 700px;
+            padding: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            background-color: #ffffff;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .links-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .links-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .links-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Common Header -->
+    <%- include('layouts/header'); -%>
+
+        <!-- Navigation -->
+        <%- include('layouts/nav'); -%>
+
+            <!-- Page Header -->
+            <header class="page-header">
+                <div class="container">
+                    <h1>G License</h1>
+                    <span>Enter your license number to get the data.</span>
+                </div>
+            </header>
+
+            <!-- Main -->
+            <main>
+                <div class="container">
+                    <div class="card">
+                        <!-- show the error message -->
+                        <% if (error) { %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= error %>
+                            </div>
+                            <div class="links-container">
+                                <a href="/g2" class="btn btn-primary">Go to G2 Page</a>
+                            </div>
+                            <!-- show the user details if user exists -->
+                            <% } else if (user) { %>
+                                <h2 class="mb-4">User Information</h2>
+                                <form method="POST" action="/g-appointment">
+                                    <div class="mb-3">
+                                        <label for="firstname" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstname" name="firstname"
+                                            value="<%= user.firstname !== 'default' ? user.firstname : '' %>" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="lastname" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastname" name="lastname"
+                                            value="<%= user.lastname !== 'default' ? user.lastname : '' %>" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="age" name="age"
+                                            value="<%= user.age !== 0 ? user.age : '' %>" disabled>
+                                    </div>
+                                    <h3 class="mb-4">Car Information</h3>
+                                    <div class="mb-3">
+                                        <label for="make" class="form-label">Make</label>
+                                        <input type="text" class="form-control" id="make" name="make"
+                                            value="<%= user.cardata.make !== 'default' ? user.cardata.make : '' %>"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="model" class="form-label">Model</label>
+                                        <input type="text" class="form-control" id="model" name="model"
+                                            value="<%= user.cardata.model !== 'default' ? user.cardata.model : '' %>"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="year" class="form-label">Year</label>
+                                        <input type="number" class="form-control" id="year" name="year"
+                                            value="<%= user.cardata.year !== 0 ? user.cardata.year : '' %>"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="platenumber" class="form-label">Plate Number</label>
+                                        <input type="text" class="form-control" id="platenumber" name="platenumber"
+                                            value="<%= user.cardata.platenumber !== 'default' ? user.cardata.platenumber : '' %>"
+                                            required>
+                                    </div>
+
+                                     <!-- Appointment -->
+                                    <h5 class="mb-4">Book Your Appointment</h5>
+                                    <div class="mb-3">
+                                        <label for="date" class="form-label">Select Date:</label>
+                                        <input type="date" class="form-control" id="date" name="date">
+                                    </div>
+                                    <div id="timeSlotsContainer" class="mb-3">
+                                        <label>Select the Time Slot:</label>
+                                        <div id="timeSlots" class="d-flex flex-wrap"></div>
+                                    </div>
+                                    <input type="hidden" id="appointmentId" name="appointmentId" value="" />
+                                    <input type="hidden" name="licensenumber" value="<%= user.licensenumber %>" />
+                                    <button type="submit" class="btn btn-primary">Book an Appointment</button>
+                                </form>
+                                <% } %>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <%- include('layouts/footer'); -%>
+
+            <!-- Script -->
+            <%- include('layouts/scripts'); -%>
+            <%- include('layouts/appointment'); -%>
+            <script>
+                $(document).ready(function () {
+                    const $dateInput = $('#date');
+                    const $timeSlotsContainer = $('#timeSlots');
+            
+                    function updateG2TimeSlots(appointments) {
+                        if (!Array.isArray(appointments)) {
+                            console.error('Appointments is not an array:', appointments);
+                            return;
+                        }
+                        $timeSlotsContainer.empty();
+                        appointments.forEach(appointment => {
+                            if (appointment.isTimeSlotAvailable) {
+                                const $button = $('<button/>', {
+                                    type: 'button',
+                                    class: 'btn time-slot',
+                                    text: appointment.time,
+                                    'data-id': appointment._id
+                                }).on('click', function () {
+                                    $('.time-slot').removeClass('selected');
+                                    $(this).addClass('selected');
+                                    $('#appointmentId').val($(this).data('id'));
+                                });
+            
+                                $timeSlotsContainer.append($button);
+                            }
+                        });
+                    }
+            
+                    $dateInput.on('change', function () {
+                        const date = $(this).val();
+                        $.ajax({
+                            url: `/appointments?date=${date}`,
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (result) {
+                                console.log(result);  // Log result to check its structure
+                                if (result.success) {
+                                    updateG2TimeSlots(result.appointments);
+                                } else {
+                                    console.error('Error: Success flag is false');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching appointments:', error);
+                            }
+                        });
+                    });
+                });
+            </script>    
+</body>
+
+</html>

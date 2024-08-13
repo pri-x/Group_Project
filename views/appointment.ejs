@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/header'); -%>
+
+    <body>
+        <%- include('layouts/nav'); -%>
+            <header class="masthead">
+                <div class="container position-relative px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="page-heading">
+                                <h1>Book your Appointments</h1>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="container">
+                <h1>Appointment Management Portal</h1>
+                <form id="appointmentForm">
+                    <div class="form-group">
+                        <label for="date">Select Date:</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Time Slots:</label>
+                        <div id="timeSlotsContainer" class="time-slots-grid">
+
+                            <button type="button" class="time-slot">10:00 AM</button>
+                            <button type="button" class="time-slot">10:30 AM</button>
+                            <button type="button" class="time-slot">11:00 AM</button>
+                            <button type="button" class="time-slot">11:30 AM</button>
+                            <button type="button" class="time-slot">12:00 PM</button>
+                            <button type="button" class="time-slot">12:30 PM</button>
+                            <button type="button" class="time-slot">01:00 PM</button>
+                            <button type="button" class="time-slot">01:30 PM</button>
+                            <button type="button" class="time-slot">02:00 PM</button>
+                            <button type="button" class="time-slot">02:30 PM</button>
+                            <button type="button" class="time-slot">03:00 PM</button>
+                            <button type="button" class="time-slot">03:30 PM</button>
+                            <button type="button" class="time-slot">04:00 PM</button>
+                            <button type="button" class="time-slot">04:30 PM</button>
+                            <button type="button" class="time-slot">05:00 PM</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Add Appointments</button>
+                </form>
+                <div id="message"></div>
+            </div>
+            <%- include('layouts/footer') %>
+                <%- include('layouts/scripts') %>
+                    <style>
+                        body {
+                            font-family: 'Arial', sans-serif;
+                            background-color: #f8f9fa;
+                            color: #333;
+                        }
+
+                        .masthead {
+                            background: linear-gradient(90deg, #1c92d2, #f2fcfe);
+                            color: white;
+                            padding: 50px 0;
+                            text-align: center;
+                        }
+
+                        .page-heading h1 {
+                            font-size: 2.5em;
+                            margin-bottom: 0.5em;
+                        }
+
+                        .page-heading .subheading {
+                            font-size: 1.2em;
+                        }
+
+                        .container {
+                            margin-top: 30px;
+                        }
+
+                        .form-group {
+                            margin-bottom: 20px;
+                        }
+
+                        label {
+                            font-weight: bold;
+                        }
+
+                        .time-slots-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                            gap: 10px;
+                        }
+
+                        .time-slot {
+                            padding: 10px;
+                            background-color: #007bff;
+                            color: white;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                        }
+
+                        .time-slot.selected {
+                            background-color: #28a745;
+                        }
+
+                        .time-slot.btn-secondary {
+                            background-color: #6c757d;
+                            cursor: not-allowed;
+                        }
+
+                        .btn-submit {
+                            background-color: #28a745;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                        }
+
+                        #message {
+                            margin-top: 20px;
+                            font-weight: bold;
+                        }
+                    </style>
+                    <%- include('layouts/appointment'); -%>
+
+    </body>
+
+</html>

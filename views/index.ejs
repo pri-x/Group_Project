@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/custom.css">
+    <style>
+        body {
+            background: #f4f7f9;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .masthead {
+            background: linear-gradient(to right, #007bff, #00c6ff);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            border-bottom: 5px solid #0056b3;
+        }
+
+        .masthead .site-heading h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .masthead .site-heading .subheading {
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-top: 0.5rem;
+        }
+
+        .post-preview {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .post-preview .post-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .post-preview .post-subtitle {
+            font-size: 1.25rem;
+            color: #555;
+        }
+
+        .post-meta {
+            font-size: 0.875rem;
+            color: #777;
+            margin-top: 1rem;
+        }
+
+        .post-meta a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 50px;
+            padding: 0.75rem 2rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .container {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Common Header -->
+    <%- include('layouts/header'); -%>
+
+    <!-- Navigation -->
+    <%- include('layouts/nav'); -%>
+
+    <!-- Page Header -->
+    <header class="masthead">
+        <div class="container">
+            <div class="site-heading">
+                <h1>Dashboard</h1>
+                <span class="subheading">DriveTest Booking Kiosk</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Post preview -->
+                <div class="post-preview">
+                    <a href="#">
+                        <h2 class="post-title">Book Your G2/G Drive Test Easily</h2>
+                        <h3 class="post-subtitle">Quick and hassle-free booking from this kiosk.</h3>
+                    </a>
+                    <p class="post-meta">
+                        Posted by <a href="#!">DriveTest Center</a>
+                    </p>
+                </div>
+                <!-- Divider -->
+                <hr class="my-4" />
+
+                <!-- Post preview -->
+                <div class="post-preview">
+                    <a href="#">
+                        <h2 class="post-title">Schedule Your Driving Test Today</h2>
+                        <h3 class="post-subtitle">Convenient booking options at your fingertips.</h3>
+                    </a>
+                    <p class="post-meta">
+                        Posted by <a href="#!">DriveTest Center</a>
+                    </p>
+                </div>
+                <!-- Divider -->
+                <hr class="my-4" />
+
+                <!-- Pager -->
+                <div class="d-flex justify-content-end mb-4">
+                    <a class="btn btn-primary" href="#!">Continue Booking →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <%- include('layouts/footer'); -%>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <%- include('layouts/scripts'); -%>
+</body>
+
+</html>
+
+
+

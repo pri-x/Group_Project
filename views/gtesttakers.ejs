@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+  <body>
+    <%- include('layouts/nav'); -%>
+    <main>
+      <div class="container">
+        <table class="infotable">
+          <thead>
+            <tr>
+              <th> First Name </th>
+              <th> Last Name </th>
+              <th> License Number </th>
+              <th> Vehicle Make </th>
+              <th> Vehicle Model </th>
+              <th> Plate Number </th>
+              <th> Test Type </th>
+              <th> Result </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0;i< testtakers.length;i++){ %>
+            <tr>
+              <td><%= testtakers[i].firstname %></td>
+              <td><%= testtakers[i].lastname %></td>
+              <td><%= testtakers[i].licensenumber %></td>
+              <td><%= testtakers[i].cardata?.make %></td>
+              <td><%= testtakers[i].cardata?.model %></td>
+              <td><%= testtakers[i].cardata?.platenumber %></td>
+              <td><%= testtakers[i].testType %></td>
+              <td><%= testtakers[i].testResult? testtakers[i].testResult: "" %></td>
+              <td>
+                <a href="gtesttakers?userId=<%= testtakers[i].id %>">Select</a>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <% if(userselected) { %>
+        <form action="/test-result" method="post">
+          <h2 class="mt-5">Selected Test Taker Details</h2>
+          <div class="mb-3">
+            <label>First Name</label>
+            <input disabled value="<%= userselected.firstname %>" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label>Last Name</label>
+            <input disabled value="<%= userselected.lastname %>" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label>License No</label>
+            <input disabled value="<%= userselected.licensenumber %>" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label>Make</label>
+            <input disabled value="<%= userselected.cardata.make %>" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label>Model</label>
+            <input disabled value="<%= userselected.cardata.model %>" class="form-control" />
+          </div>
+          <div class="mb-3"> <label>Plate No</label> 
+            <input    disabled value="<%= userselected.cardata.platenumber %>" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label>Comment</label> <input name="comment" value="<%= userselected.comments %>"  class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label>Result</label>
+            <select value="<%= userselected.testResult %>" class="form-select" name="testResult" id="" >
+              <option>Select</option>
+              <option value="Pass">Pass</option>
+              <option value="Fail">Fail</option>
+            </select>
+          </div>
+          <input name="userId"  type="text" hidden value="<%= userselected._id %>" />
+          <input name="bookedAppointmentId" type="text" hidden value="<%= userselected.appointment %>"
+          />
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <% } %>
+      </div>
+    </main>
+    <%- include('layouts/appointment'); -%>
+  </body>
+
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G License</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/custom.css">
+    <style>
+        body {
+            background-color: #f5f7f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .page-header {
+            background-color: #333;
+            color: #ffffff;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header span {
+            font-size: 1.25rem;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 700px;
+            padding: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            background-color: #ffffff;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .links-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .links-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .links-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Common Header -->
+    <%- include('layouts/header'); -%>
+
+        <!-- Navigation -->
+        <%- include('layouts/nav'); -%>
+
+            <!-- Page Header -->
+            <header class="page-header">
+                <div class="container">
+                    <h1>G License</h1>
+                    <span>Enter your license number to get the data.</span>
+                </div>
+            </header>
+
+            <!-- Main -->
+            <main>
+                <div class="container">
+                    <div class="card">
+                        <!-- Appointment -->
+                        <h2 class="mb-4">Booked Appointments</h2>
+                        <div class="mb-3">
+                            <label for="examDate" class="form-label">Select Date:</label>
+                            <input type="date" class="form-control" id="examDate" name="examDate">
+                        </div>
+                        <div id="examinerTimeSlotContainer" class="mb-3">
+                            <label>Select the Time Slot:</label>
+                            <div id="timeSlots" class="d-flex flex-wrap"></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                    <!-- show the error message -->
+                        <div id="user-error">
+                            <div class="alert alert-danger" role="alert">
+                            </div>
+                        </div>
+                        <!-- show the user details if user exists -->
+                        <div id="user-detail">
+                            <h2 class="mb-4">User Information</h2>
+                            <form method="POST" action="/test-result">
+                                <div class="mb-3">
+                                    <label for="licensenumber" class="form-label">License Number</label>
+                                    <input type="text" class="form-control" id="licensenumber" name="licensenumber" value="" disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="firstname" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="" disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="lastname" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" value="" disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="age" name="age" value="" disabled />
+                                </div>
+                                <h3 class="mb-4">Car Information</h3>
+                                <div class="mb-3">
+                                    <label for="make" class="form-label">Make</label>
+                                    <input type="text" class="form-control" id="make" name="make" value="" disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="model" class="form-label">Model</label>
+                                    <input type="text" class="form-control" id="model" name="model" value="" disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="year" class="form-label">Year</label>
+                                    <input type="number" class="form-control" id="year" name="year" value="" disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="platenumber" class="form-label">Plate Number</label>
+                                    <input type="text" class="form-control" id="platenumber" name="platenumber" value="" disabled />
+                                </div>
+                                <h3 class="mb-4">Test Type</h3>
+                                <div class="mb-3">
+                                    <label for="testType" class="form-label">Test Type</label>
+                                    <input type="text" class="form-control" id="testType" name="testType" value="" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comments" class="form-label">Comments</label>
+                                    <input type="text" class="form-control" id="comments" name="comments"value="" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="testResult" class="form-label">Test Result</label>
+                                    <input type="text" class="form-control" id="testResult" name="testResult" value="" required />
+                                </div>
+                                <input type="hidden" id="bookedAppointmentId" name="bookedAppointmentId" value="" />
+                                <button type="submit" class="btn btn-primary">Add result</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <%- include('layouts/footer'); -%>
+
+            <!-- Script -->
+            <%- include('layouts/scripts'); -%>
+            <%- include('layouts/appointment'); -%>
+</body>
+
+</html>

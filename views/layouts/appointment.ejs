@@ -1,0 +1,687 @@
+<!-- <script>
+    $(document).ready(function () {
+        const $dateInput = $('#date');
+        const $adminTimeSlotsContainer = $('#timeSlotsContainer');
+        const $DriverTimeSlotContainer = $('#timeSlots');
+        const $appointmentForm = $('#appointmentForm');
+        const $messageDiv = $('#message');
+
+        $dateInput.on('change', function () {
+            const date = $(this).val();
+            $.ajax({
+                url: `/appointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        if(adminTimeSlotsContainer.length > 0){
+                            updateAdminTimeSlots(result.appointments);
+                        } else {
+                            updateDriverTimeSlots(result.appointments);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+
+        function updateDriverTimeSlots(appointments) {
+            $DriverTimeSlotContainer.empty();
+            result.appointments.forEach(appointment => {
+                if (appointment.isTimeSlotAvailable) {
+                    const $button = $('<button/>', {
+                        type: 'button',
+                        class: 'btn time-slot',
+                        text: appointment.time,
+                        'data-id': appointment._id
+                    }).on('click', function () {
+                        $('.time-slot').removeClass('selected');
+                        $(this).addClass('selected');
+                        $('#appointmentId').val($(this).data('id'));
+                    });
+
+                    $DriverTimeSlotContainer.append($button);
+                }
+            });
+        }
+
+        function updateAdminTimeSlots(appointments) {
+            $adminTimeSlotsContainer.find('.time-slot').each(function () {
+                $(this).removeClass('selected btn-secondary').addClass('btn-primary').prop('disabled', false);
+            });
+
+            appointments.forEach(({ time }) => {
+                const $button = $adminTimeSlotsContainer.find(`.time-slot:contains(${time})`);
+                $button.removeClass('btn-primary').addClass('btn-secondary').prop('disabled', true);
+            });
+        }
+
+        $adminTimeSlotsContainer.on('click', '.time-slot', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $appointmentForm.on('submit', function (e) {
+            e.preventDefault();
+
+            const date = $dateInput.val();
+            const selectedSlots = $adminTimeSlotsContainer.find('.time-slot.selected')
+                .map(function () { return $(this).text(); }).get();
+console.log("date",date,"selectedSlots",selectedSlots)
+            $.ajax({
+                url: '/appointments',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ date, slots: selectedSlots }),
+                dataType: 'json',
+                success: function (result) {
+                    $messageDiv.text(result.message);
+
+                    if (result.success) {
+                        updateTimeSlots(result.appointments);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting appointments:', error);
+                }
+            });
+        });
+    
+        const $examDate = $('#examDate');
+        const $examinerTimeSlotContainer = $('#examinerTimeSlotContainer');
+        const updateDriverInfo = (appointmentId) => {
+            $.ajax({
+                url: `/driverInfo?appointmentId=${appointmentId}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        $('#user-error').html = '';
+                        $('#licensenumber').val(result.user.licensenumber);
+                        $('#firstname').val(result.user.firstname);
+                        $('#lastname').val(result.user.lastname);
+                        $('#age').val(result.user.age);
+                        $('#make').val(result.user.cardata.make);
+                        $('#model').val(result.user.cardata.model);
+                        $('#year').val(result.user.cardata.year);
+                        $('#platenumber').val(result.user.cardata.platenumber);
+                        $('#testType').val(result.user.testType);
+                        $('#comments').val(result.user.comments);
+                        $('#testResult').val(result.user.testResult);
+                        $('#user-detail').show();
+                    } else {
+                        $('#user-error').html = 'Error fetching driverinfo';
+                        $('#user-detail').hide();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#user-error').html = 'Error fetching driverinfo';
+                    $('#user-detail').hide();
+                    console.error('Error fetching driverinfo:', error);
+                }  
+            });  
+        }
+        $examDate.on('change', function() {
+            const date = $(this).val();
+            $.ajax({
+                url: `/bookedAppointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        $examinerTimeSlotContainer.empty();
+                        result.appointments.forEach(appointment => {
+                            if (!appointment.isTimeSlotAvailable) {
+                                const $button = $('<button/>', {
+                                    type: 'button',
+                                    class: 'btn time-slot',
+                                    text: appointment.time,
+                                    'data-id': appointment._id
+                                }).on('click', function () {
+                                    $('.time-slot').removeClass('selected');
+                                    $(this).addClass('selected');
+                                    const appointmentId = $(this).data('id');
+                                    $('#bookedAppointmentId').val(appointmentId);
+                                    updateDriverInfo(appointmentId);
+                                });
+
+                                $examinerTimeSlotContainer.append($button);
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+    });
+</script> -->
+
+<!-- <script>
+    $(document).ready(function () {
+        const $dateInput = $('#date');
+        const $adminTimeSlotsContainer = $('#timeSlotsContainer');
+        const $DriverTimeSlotContainer = $('#timeSlots');
+        const $appointmentForm = $('#appointmentForm');
+        const $messageDiv = $('#message');
+
+        $dateInput.on('change', function () {
+            const date = $(this).val();
+            $.ajax({
+                url: `/appointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        if ($adminTimeSlotsContainer.length > 0) {
+                            updateAdminTimeSlots(result.appointments);
+                        } else {
+                            updateDriverTimeSlots(result.appointments);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+
+        function updateDriverTimeSlots(appointments) {
+            $DriverTimeSlotContainer.empty();
+            appointments.forEach(appointment => {
+                if (appointment.isTimeSlotAvailable) {
+                    const $button = $('<button/>', {
+                        type: 'button',
+                        class: 'btn time-slot',
+                        text: appointment.time,
+                        'data-id': appointment._id
+                    }).on('click', function () {
+                        $('.time-slot').removeClass('selected');
+                        $(this).addClass('selected');
+                        $('#appointmentId').val($(this).data('id'));
+                    });
+
+                    $DriverTimeSlotContainer.append($button);
+                }
+            });
+        }
+
+        function updateAdminTimeSlots(appointments) {
+            $adminTimeSlotsContainer.find('.time-slot').each(function () {
+                $(this).removeClass('selected btn-secondary').addClass('btn-primary').prop('disabled', false);
+            });
+
+            appointments.forEach(({ time }) => {
+                const $button = $adminTimeSlotsContainer.find(`.time-slot:contains(${time})`);
+                $button.removeClass('btn-primary').addClass('btn-secondary').prop('disabled', true);
+            });
+        }
+
+        function updateTimeSlots(appointments) {
+            // Assuming you want to update the driver time slots here
+            updateDriverTimeSlots(appointments);
+        }
+
+        $adminTimeSlotsContainer.on('click', '.time-slot', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $appointmentForm.on('submit', function (e) {
+            e.preventDefault();
+
+            const date = $dateInput.val();
+            const selectedSlots = $adminTimeSlotsContainer.find('.time-slot.selected')
+                .map(function () { return $(this).text(); }).get();
+            console.log("date", date, "selectedSlots", selectedSlots);
+
+            $.ajax({
+                url: '/appointments',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ date, slots: selectedSlots }),
+                dataType: 'json',
+                success: function (result) {
+                    $messageDiv.text(result.message);
+
+                    if (result.success) {
+                        updateTimeSlots(result.appointments);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting appointments:', error);
+                }
+            });
+        });
+
+        const $examDate = $('#examDate');
+        const $examinerTimeSlotContainer = $('#examinerTimeSlotContainer');
+        const updateDriverInfo = (appointmentId) => {
+            $.ajax({
+                url: `/driverInfo?appointmentId=${appointmentId}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        $('#user-error').html('');
+                        $('#licensenumber').val(result.user.licensenumber);
+                        $('#firstname').val(result.user.firstname);
+                        $('#lastname').val(result.user.lastname);
+                        $('#age').val(result.user.age);
+                        $('#make').val(result.user.cardata.make);
+                        $('#model').val(result.user.cardata.model);
+                        $('#year').val(result.user.cardata.year);
+                        $('#platenumber').val(result.user.cardata.platenumber);
+                        $('#testType').val(result.user.testType);
+                        $('#comments').val(result.user.comments);
+                        $('#testResult').val(result.user.testResult);
+                        $('#user-detail').show();
+                    } else {
+                        $('#user-error').html('Error fetching driverinfo');
+                        $('#user-detail').hide();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#user-error').html('Error fetching driverinfo');
+                    $('#user-detail').hide();
+                    console.error('Error fetching driverinfo:', error);
+                }  
+            });  
+        }
+
+        $examDate.on('change', function () {
+            const date = $(this).val();
+            $.ajax({
+                url: `/bookedAppointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        $examinerTimeSlotContainer.empty();
+                        result.appointments.forEach(appointment => {
+                            if (!appointment.isTimeSlotAvailable) {
+                                const $button = $('<button/>', {
+                                    type: 'button',
+                                    class: 'btn time-slot',
+                                    text: appointment.time,
+                                    'data-id': appointment._id
+                                }).on('click', function () {
+                                    $('.time-slot').removeClass('selected');
+                                    $(this).addClass('selected');
+                                    const appointmentId = $(this).data('id');
+                                    $('#bookedAppointmentId').val(appointmentId);
+                                    updateDriverInfo(appointmentId);
+                                });
+
+                                $examinerTimeSlotContainer.append($button);
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+    });
+</script>
+ -->
+
+<!--  <script>
+    $(document).ready(function () {
+        const $dateInput = $('#date');
+        const $adminTimeSlotsContainer = $('#timeSlotsContainer');
+        const $DriverTimeSlotContainer = $('#timeSlots');
+        const $appointmentForm = $('#appointmentForm');
+        const $messageDiv = $('#message');
+
+        $dateInput.on('change', function () {
+            const date = $(this).val();
+            $.ajax({
+                url: `/appointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        if ($adminTimeSlotsContainer.length > 0) {
+                            updateAdminTimeSlots(result.appointments);
+                        } else {
+                            updateDriverTimeSlots(result.appointments);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+
+        function updateDriverTimeSlots(appointments) {
+            $DriverTimeSlotContainer.empty();
+            appointments.forEach(appointment => {
+                if (appointment.isTimeSlotAvailable) {
+                    const $button = $('<button/>', {
+                        type: 'button',
+                        class: 'btn time-slot',
+                        text: appointment.time,
+                        'data-id': appointment._id
+                    }).on('click', function () {
+                        $('.time-slot').removeClass('selected');
+                        $(this).addClass('selected');
+                        $('#appointmentId').val($(this).data('id'));
+                    });
+
+                    $DriverTimeSlotContainer.append($button);
+                }
+            });
+        }
+
+        function updateAdminTimeSlots(appointments) {
+            $adminTimeSlotsContainer.find('.time-slot').each(function () {
+                $(this).removeClass('selected btn-secondary').addClass('btn-primary').prop('disabled', false);
+            });
+
+            appointments.forEach(({ time }) => {
+                const $button = $adminTimeSlotsContainer.find(`.time-slot:contains(${time})`);
+                $button.removeClass('btn-primary').addClass('btn-secondary').prop('disabled', true);
+            });
+        }
+
+        function updateTimeSlots(appointments) {
+            // Assuming you want to update the driver time slots here
+            updateDriverTimeSlots(appointments);
+        }
+
+        $adminTimeSlotsContainer.on('click', '.time-slot', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $appointmentForm.on('submit', function (e) {
+            e.preventDefault();
+
+            const date = $dateInput.val();
+            const selectedSlots = $adminTimeSlotsContainer.find('.time-slot.selected')
+                .map(function () { return $(this).text(); }).get();
+            console.log("date", date, "selectedSlots", selectedSlots);
+
+            $.ajax({
+                url: '/appointments',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ date, slots: selectedSlots }),
+                dataType: 'json',
+                success: function (result) {
+                    $messageDiv.text(result.message);
+
+                    if (result.success) {
+                        updateTimeSlots(result.appointments);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting appointments:', error);
+                }
+            });
+        });
+
+        const $examDate = $('#examDate');
+        const $examinerTimeSlotContainer = $('#examinerTimeSlotContainer');
+        
+        const updateDriverInfo = (appointmentId) => {
+            $.ajax({
+                url: `/driverInfo?appointmentId=${appointmentId}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        $('#user-error').html('');
+                        $('#licensenumber').val(result.user.licensenumber);
+                        $('#firstname').val(result.user.firstname);
+                        $('#lastname').val(result.user.lastname);
+                        $('#age').val(result.user.age);
+                        $('#make').val(result.user.cardata.make);
+                        $('#model').val(result.user.cardata.model);
+                        $('#year').val(result.user.cardata.year);
+                        $('#platenumber').val(result.user.cardata.platenumber);
+                        $('#testType').val(result.user.testType);
+                        $('#comments').val(result.user.comments);
+                        $('#testResult').val(result.user.testResult);
+                        $('#user-detail').show();
+                    } else {
+                        $('#user-error').html('Error fetching driverinfo');
+                        $('#user-detail').hide();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#user-error').html('Error fetching driverinfo');
+                    $('#user-detail').hide();
+                    console.error('Error fetching driverinfo:', error);
+                }
+            });  
+        }
+
+        $examDate.on('change', function () {
+            const date = $(this).val();
+            $.ajax({
+                url: `/bookedAppointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        $examinerTimeSlotContainer.empty();
+                        result.appointments.forEach(appointment => {
+                            if (!appointment.isTimeSlotAvailable) {
+                                const $button = $('<button/>', {
+                                    type: 'button',
+                                    class: 'btn time-slot',
+                                    text: appointment.time,
+                                    'data-id': appointment._id
+                                }).on('click', function () {
+                                    $('.time-slot').removeClass('selected');
+                                    $(this).addClass('selected');
+                                    const appointmentId = $(this).data('id');
+                                    $('#bookedAppointmentId').val(appointmentId);
+                                    updateDriverInfo(appointmentId);
+                                });
+
+                                $examinerTimeSlotContainer.append($button);
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+    });
+</script> -->
+
+<script>
+    $(document).ready(function () {
+        const $dateInput = $('#date');
+        const $adminTimeSlotsContainer = $('#timeSlotsContainer');
+        const $DriverTimeSlotContainer = $('#timeSlots');
+        const $appointmentForm = $('#appointmentForm');
+        const $messageDiv = $('#message');
+
+        $dateInput.on('change', function () {
+            const date = $(this).val();
+            $.ajax({
+                url: `/appointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result);  // Log result to check its structure
+                    if (result.success) {
+                        const appointments = result.appointments || [];
+                        if ($adminTimeSlotsContainer.length > 0) {
+                            updateAdminTimeSlots(appointments);
+                        } else {
+                            updateDriverTimeSlots(appointments);
+                        }
+                    } else {
+                        console.error('Error: Success flag is false');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+
+        function updateDriverTimeSlots(appointments) {
+            if (!Array.isArray(appointments)) {
+                console.error('Appointments is not an array:', appointments);
+                return;
+            }
+            $DriverTimeSlotContainer.empty();
+            appointments.forEach(appointment => {
+                if (appointment.isTimeSlotAvailable) {
+                    const $button = $('<button/>', {
+                        type: 'button',
+                        class: 'btn time-slot',
+                        text: appointment.time,
+                        'data-id': appointment._id
+                    }).on('click', function () {
+                        $('.time-slot').removeClass('selected');
+                        $(this).addClass('selected');
+                        $('#appointmentId').val($(this).data('id'));
+                    });
+
+                    $DriverTimeSlotContainer.append($button);
+                }
+            });
+        }
+
+        function updateAdminTimeSlots(appointments) {
+            if (!Array.isArray(appointments)) {
+                console.error('Appointments is not an array:', appointments);
+                return;
+            }
+            $adminTimeSlotsContainer.find('.time-slot').each(function () {
+                $(this).removeClass('selected btn-secondary').addClass('btn-primary').prop('disabled', false);
+            });
+
+            appointments.forEach(({ time }) => {
+                const $button = $adminTimeSlotsContainer.find(`.time-slot:contains(${time})`);
+                $button.removeClass('btn-primary').addClass('btn-secondary').prop('disabled', true);
+            });
+        }
+
+        function updateTimeSlots(appointments) {
+            updateDriverTimeSlots(appointments);
+        }
+
+        $adminTimeSlotsContainer.on('click', '.time-slot', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $appointmentForm.on('submit', function (e) {
+            e.preventDefault();
+
+            const date = $dateInput.val();
+            const selectedSlots = $adminTimeSlotsContainer.find('.time-slot.selected')
+                .map(function () { return $(this).text(); }).get();
+            console.log("date", date, "selectedSlots", selectedSlots);
+
+            $.ajax({
+                url: '/appointments',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ date, slots: selectedSlots }),
+                dataType: 'json',
+                success: function (result) {
+                    $messageDiv.text(result.message);
+
+                    if (result.success) {
+                        const appointments = result.appointments || [];
+                        updateTimeSlots(appointments);
+                    } else {
+                        console.error('Error: Success flag is false');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting appointments:', error);
+                }
+            });
+        });
+
+        const $examDate = $('#examDate');
+        const $examinerTimeSlotContainer = $('#examinerTimeSlotContainer');
+        
+        const updateDriverInfo = (appointmentId) => {
+            $.ajax({
+                url: `/driverInfo?appointmentId=${appointmentId}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        $('#user-error').html('');
+                        $('#licensenumber').val(result.user.licensenumber);
+                        $('#firstname').val(result.user.firstname);
+                        $('#lastname').val(result.user.lastname);
+                        $('#age').val(result.user.age);
+                        $('#make').val(result.user.cardata.make);
+                        $('#model').val(result.user.cardata.model);
+                        $('#year').val(result.user.cardata.year);
+                        $('#platenumber').val(result.user.cardata.platenumber);
+                        $('#testType').val(result.user.testType);
+                        $('#comments').val(result.user.comments);
+                        $('#testResult').val(result.user.testResult);
+                        $('#user-detail').show();
+                    } else {
+                        $('#user-error').html('Error fetching driver info');
+                        $('#user-detail').hide();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#user-error').html('Error fetching driver info');
+                    $('#user-detail').hide();
+                    console.error('Error fetching driver info:', error);
+                }
+            });  
+        }
+
+        $examDate.on('change', function () {
+            const date = $(this).val();
+            $.ajax({
+                url: `/bookedAppointments?date=${date}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result);  // Log result to check its structure
+                    if (result.success) {
+                        const appointments = result.appointments || [];
+                        $examinerTimeSlotContainer.empty();
+                        appointments.forEach(appointment => {
+                            if (!appointment.isTimeSlotAvailable) {
+                                const $button = $('<button/>', {
+                                    type: 'button',
+                                    class: 'btn time-slot',
+                                    text: appointment.time,
+                                    'data-id': appointment._id
+                                }).on('click', function () {
+                                    $('.time-slot').removeClass('selected');
+                                    $(this).addClass('selected');
+                                    const appointmentId = $(this).data('id');
+                                    $('#bookedAppointmentId').val(appointmentId);
+                                    updateDriverInfo(appointmentId);
+                                });
+
+                                $examinerTimeSlotContainer.append($button);
+                            }
+                        });
+                    } else {
+                        console.error('Error: Success flag is false');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching appointments:', error);
+                }
+            });
+        });
+    });
+</script>
+
+

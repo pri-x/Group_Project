@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #f0f2f5, #e4e7eb);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .signup-container {
+            max-width: 600px;
+            margin: 5% auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #dcdcdc;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .signup-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin: 0;
+        }
+
+        .signup-header span {
+            color: #6c757d;
+            font-size: 1.2rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 8px;
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .alert {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .links-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .links-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .links-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Common Header -->
+    <%- include('layouts/header'); -%>
+
+    <!-- Navigation -->
+    <%- include('layouts/nav'); -%>
+
+    <!-- Main Content -->
+    <div class="signup-container">
+        <div class="signup-header">
+            <h1>Create Your Account</h1>
+            <span>Sign up to start booking your tests and managing your account.</span>
+        </div>
+
+        <% if (error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/signup" method="post">
+            <div class="mb-4">
+                <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Enter your username" required>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <div class="mb-4">
+                <label for="repeatedPassword" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" name="repeatedPassword" id="repeatedPassword" placeholder="Confirm your password" required>
+            </div>
+            <div class="mb-4">
+                <label for="userType" class="form-label">User Role <span class="text-danger">*</span></label>
+                <select class="form-select" name="userType" id="userType" required>
+                    <option value="Driver">Driver</option>
+                    <option value="Examiner">Examiner</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-primary w-100" type="submit">Sign Up</button>
+            </div>
+        </form>
+
+        <div class="links-container">
+            <a href="/login">Already have an account? Log in</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <%- include('layouts/footer'); -%>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <%- include('layouts/scripts'); -%>
+</body>
+
+</html>

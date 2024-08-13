@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G2 Test Booking</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/custom.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .page-header {
+            background-color: #333;
+            color: #fff;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header span {
+            font-size: 1.25rem;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin-top: -5rem;
+            padding: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem;
+        }
+
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .alert {
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+
+        .time-slot {
+            border: 1px solid #007bff;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            cursor: pointer;
+        }
+
+        .time-slot.selected {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .time-slot:hover {
+            background-color: #e9ecef;
+        }
+
+        .links-container a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .links-container a:hover {
+            text-decoration: underline;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border: 1px solid #c3e6cb;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Common Header -->
+    <%- include('layouts/header'); -%>
+
+    <!-- Navigation -->
+    <%- include('layouts/nav'); -%>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>G2 Test Booking</h1>
+            <span>Fill below data to book G2 Driving Test.</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="card">
+                <!-- Display Success or Error Messages -->
+                <% if (success) { %>
+                    <div class="alert alert-success" role="alert">
+                        <%= success %>
+                    </div>
+                <% } %>
+                <% if (error) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form id="appointmentBookingForm" method="POST" action="/g2-appointment">
+                    <h5 class="mb-4">Personal Information</h5>
+                    <div class="mb-3">
+                        <label for="firstname" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname"
+                            value="<%= user.firstname !== 'default' ? user.firstname : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname"
+                            value="<%= user.lastname !== 'default' ? user.lastname : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="age" name="age"
+                            value="<%= user.age !== 0 ? user.age : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="licensenumber" class="form-label">License Number</label>
+                        <input type="text" class="form-control" id="licensenumber" name="licensenumber"
+                            value="<%= user.licensenumber !== 'default' ? user.licensenumber : '' %>" maxlength="8"
+                            pattern="[A-Za-z0-9]{8}" required>
+                    </div>
+
+                    <!-- Car Information -->
+                    <h5 class="mb-4">Car Information</h5>
+                    <div class="mb-3">
+                        <label for="make" class="form-label">Make</label>
+                        <input type="text" class="form-control" id="make" name="make"
+                            value="<%= user.cardata.make !== 'default' ? user.cardata.make : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="model" class="form-label">Model</label>
+                        <input type="text" class="form-control" id="model" name="model"
+                            value="<%= user.cardata.model !== 'default' ? user.cardata.model : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Year</label>
+                        <input type="number" class="form-control" id="year" name="year"
+                            value="<%= user.cardata.year !== 0 ? user.cardata.year : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="platenumber" class="form-label">Plate Number</label>
+                        <input type="text" class="form-control" id="platenumber" name="platenumber"
+                            value="<%= user.cardata.platenumber !== 'default' ? user.cardata.platenumber : '' %>"
+                            required>
+                    </div>
+
+                    <!-- Appointment -->
+                    <h5 class="mb-4">Book Your Appointment</h5>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Select Date:</label>
+                        <input type="date" class="form-control" id="date" name="date">
+                    </div>
+                    <div id="timeSlotsContainer" class="mb-3">
+                        <label>Select the Time Slot:</label>
+                        <div id="timeSlots" class="d-flex flex-wrap"></div>
+                    </div>
+
+                    <!-- Hidden Fields -->
+                    <input type="hidden" name="userId" value="<%= user._id %>" />
+                    <input type="hidden" id="appointmentId" name="appointmentId" value="" />
+
+                    <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">
+                        Book an Appointment
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <%- include('layouts/footer'); -%>
+
+    <!-- Script -->
+    <%- include('layouts/scripts'); -%>
+    <%- include('layouts/appointment'); -%>
+    <script>
+        $(document).ready(function () {
+            const $dateInput = $('#date');
+            const $timeSlotsContainer = $('#timeSlots');
+    
+            function updateG2TimeSlots(appointments) {
+                if (!Array.isArray(appointments)) {
+                    console.error('Appointments is not an array:', appointments);
+                    return;
+                }
+                $timeSlotsContainer.empty();
+                appointments.forEach(appointment => {
+                    if (appointment.isTimeSlotAvailable) {
+                        const $button = $('<button/>', {
+                            type: 'button',
+                            class: 'btn time-slot',
+                            text: appointment.time,
+                            'data-id': appointment._id
+                        }).on('click', function () {
+                            $('.time-slot').removeClass('selected');
+                            $(this).addClass('selected');
+                            $('#appointmentId').val($(this).data('id'));
+                        });
+    
+                        $timeSlotsContainer.append($button);
+                    }
+                });
+            }
+    
+            $dateInput.on('change', function () {
+                const date = $(this).val();
+                $.ajax({
+                    url: `/appointments?date=${date}`,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result);  // Log result to check its structure
+                        if (result.success) {
+                            updateG2TimeSlots(result.appointments);
+                        } else {
+                            console.error('Error: Success flag is false');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching appointments:', error);
+                    }
+                });
+            });
+        });
+    </script>    
+</body>
+
+</html>
